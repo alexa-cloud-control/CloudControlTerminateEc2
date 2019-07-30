@@ -38,8 +38,9 @@ def cloud_control_state_action_ec2(event, context):
             for instance in reservation['Instances']:
                 instance_list.append(instance['InstanceId'])
         if not instance_list:
-            msg = "I cannot find the instance with name {}."
-                .format(event["body"]["InstanceName"])
+            msg = "I cannot find the instance with name {}.".format(
+                event["body"]["InstanceName"]
+            )
             return {"msg": msg}
         temp_msg = "I found instance {}. ".format(event["body"]["InstanceName"])
         terminate_action = ec2.instances.filter(
