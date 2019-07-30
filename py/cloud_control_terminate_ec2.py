@@ -17,13 +17,12 @@ def cloud_control_state_action_ec2(event, context):
         instances_to_terminate = [instance.id for instance in instances]
         if len(instances_to_terminate) > 0:
             #perform the shutdown
-            terminate_action = ec2.instances.filter(
+            ec2.instances.filter(
                 InstanceIds=instances_to_terminate).terminate()
             msg = "All instances were terminated!"
             return {"msg": msg}
-        else:
-            msg = "Nothing to terminate!"
-            return {"msg": msg}
+        msg = "Nothing to terminate!"
+        return {"msg": msg}
     else:
         response = ec2_client.describe_instances(
             Filters=[
@@ -43,11 +42,7 @@ def cloud_control_state_action_ec2(event, context):
             )
             return {"msg": msg}
         temp_msg = "I found instance {}. ".format(event["body"]["InstanceName"])
-        terminate_action = ec2.instances.filter(
+        ec2.instances.filter(
             InstanceIds=instance_list).terminate()
-        #if not instance_list.terminate():
-        #     msg = temp_msg + "I cannot terminate it, though..."
-        #     return 1, msg
-        # else:
         msg = temp_msg + "Terminating."
         return {"msg": msg}
