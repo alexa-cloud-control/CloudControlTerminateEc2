@@ -2,7 +2,7 @@ terraform {
   backend "s3" {
     bucket         = "STATEBUCKETNAME"
     encrypt        = true
-    key            = "terraformstates/CloudControlStateActionEc2.tfstate"
+    key            = "terraformstates/CloudControlTerminateEc2.tfstate"
     dynamodb_table = "TABLENAME"
     region         = "REGION"
   }
