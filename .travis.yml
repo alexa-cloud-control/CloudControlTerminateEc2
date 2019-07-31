@@ -84,7 +84,7 @@ jobs:
           role: "arn:aws:iam::${account_number}:role/LambdaAlexaCloudControlTerminateEc2IamRole"
           runtime: "python3.6"
           module_name: "cloud_control_terminate_ec2"
-          handler_name: "cloud_control_terminate_ec2
+          handler_name: "cloud_control_terminate_ec2"
           description: "Alexa EC2 - Terminate EC2"
           memory_size: 128
           timeout: 5
