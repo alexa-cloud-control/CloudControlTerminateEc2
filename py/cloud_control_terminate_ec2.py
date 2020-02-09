@@ -74,8 +74,8 @@ def cloud_control_terminate_ec2(event, context):
     response = {}
     response = validate_with_dynamo(validate_with_context_payload)
     payload_response = json.loads(response)
-    ValidatedInstanceName = payload_response["LastInstanceName"]
-    if ValidatedInstanceName == "all":
+    validated_instance_name = payload_response["LastInstanceName"]
+    if validated_instance_name == "all":
         ec2_filter = [
             {
                 'Name': 'instance-state-name',
@@ -96,7 +96,7 @@ def cloud_control_terminate_ec2(event, context):
         Filters=[
             {
                 'Name': 'tag:Name',
-                'Values': [ValidatedInstanceName]
+                'Values': [validated_instance_name]
             }
         ]
     )
@@ -106,16 +106,16 @@ def cloud_control_terminate_ec2(event, context):
             instance_list.append(instance['InstanceId'])
     if not instance_list:
         msg = "I cannot find the instance with name {}.".format(
-            ValidatedInstanceName
+            validated_instance_name
         )
         return {"msg": msg}
-    temp_msg = "I found instance {}. ".format(ValidatedInstanceName)
+    temp_msg = "I found instance {}. ".format(validated_instance_name)
     ec2.instances.filter(
         InstanceIds=instance_list).terminate()
     msg = temp_msg + "Terminating."
-    if ValidatedInstanceName != "all":
+    if validated_instance_name != "all":
         write_to_table_payload = {
-            "LastInstanceName": ValidatedInstanceName
+            "LastInstanceName": validated_instance_name
         }
     write_to_dynamo(write_to_table_payload)
     return {"msg": msg}
