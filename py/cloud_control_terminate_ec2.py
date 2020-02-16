@@ -1,6 +1,6 @@
 """ Lambda function - terminate ec2 """
-import json
 import boto3
+import json
 
 def write_to_dynamo(context):
     """ Write data to DynamoDB table """
@@ -28,10 +28,13 @@ def validate_with_dynamo(context):
         'the-same',
         'same',
         'like-last-one',
+        'like-last-1',
         'last-one',
+        'last-1',
         'last',
         'previous',
         'previous-one',
+        'previous-1',
         'like-before',
         'like-last-time'
     ]
@@ -56,6 +59,7 @@ def validate_with_dynamo(context):
                 )
                 print(error)
                 return {"msg": msg}
+            
         else:
             function_payload[context_key] = context_value
     json_payload = json.dumps(function_payload)
